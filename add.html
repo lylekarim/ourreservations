@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Restaurant reseravationd - Express</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Get your Reservations NOW</h1>
+      <h3>The greatest resource in the galaxy for making reservations</h3>
+      <hr>
+      <a href="/">
+        <button class="btn btn-danger btn-lg">
+          <span class="fa fa-eye"></span> HOME</button>
+      </a>
+      <a href="/all">
+        <button class="btn btn-danger btn-lg">
+          <span class="fa fa-th-list"></span> Display Current Reservations</button>
+      </a>
+    </div>
+    <div class="row">
+
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-header">
+            Add Reservations
+          </div>
+          <div class="card-body">
+            <form role="form">
+
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name">
+              </div>
+
+              <div class="form-group">
+                <label for="guests">Number of Guests</label>
+                <input type="text" class="form-control" id="guests">
+              </div>
+
+              <div class="form-group">
+                <label for="email">Contact Email Address</label>
+                <input type="email" class="form-control" id="email">
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="phone" class="form-control" id="phone">
+              </div>
+
+            </form>
+            <br>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary btn-md" id="add-btn">
+                <span class="fa fa-fire"></span>Submit Reservation</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+
+    $("#add-btn").on("click", function(event) {
+      event.preventDefault();
+
+      var diner = {
+        name: $("#name").val().trim(),
+        guests: $("#guests").val().trim(),
+        email: $("#email").val().trim(),
+        phone: $("#phone").val().trim()
+      };
+
+      $.post("/api/diners", diner)
+        .then(function(data) {
+          console.log(data);
+          $.get("/api/diners", function(data){
+              if(data[1].length<1){
+                  alert("Adding Reservation");
+              }else{
+                  alert("Added to waitlist");
+              }
+          })
+
+        });
+
+    });
+
+  </script>
+</body>
+
+</html>
